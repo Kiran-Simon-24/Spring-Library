@@ -42,7 +42,9 @@ public class SingUpPage extends javax.swing.JFrame {
             int updatedRowCount = pst.executeUpdate();
             
             if(updatedRowCount > 0){
+                
                 JOptionPane.showMessageDialog(this,"Recorded inserted Successfully" );
+                login();
             }
             else {
                 JOptionPane.showMessageDialog(this,"Recorded inserted Failed" );
@@ -196,6 +198,11 @@ public class SingUpPage extends javax.swing.JFrame {
             }
             return false;
 }
+    private void login(){
+            LoginPage logIn = new LoginPage();
+            logIn.setVisible(true);
+            this.dispose();
+        }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -279,7 +286,7 @@ public class SingUpPage extends javax.swing.JFrame {
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, -1));
         jPanel1.getAccessibleContext().setAccessibleName("");
 
-        jPanel2.setBackground(new java.awt.Color(153, 0, 255));
+        jPanel2.setBackground(new java.awt.Color(153, 102, 255));
         jPanel2.setMinimumSize(new java.awt.Dimension(600, 800));
         jPanel2.setPreferredSize(new java.awt.Dimension(600, 800));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -294,7 +301,7 @@ public class SingUpPage extends javax.swing.JFrame {
         });
         jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 40, 40));
 
-        txt_contact.setBackground(new java.awt.Color(153, 0, 255));
+        txt_contact.setBackground(new java.awt.Color(153, 102, 255));
         txt_contact.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         txt_contact.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         txt_contact.setPlaceholder("Enter Contact no ...");
@@ -325,7 +332,7 @@ public class SingUpPage extends javax.swing.JFrame {
         jLabel12.setText("Username");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, -1, 40));
 
-        txt_username.setBackground(new java.awt.Color(153, 0, 255));
+        txt_username.setBackground(new java.awt.Color(153, 102, 255));
         txt_username.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         txt_username.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         txt_username.setPlaceholder("Enter Username ...");
@@ -351,7 +358,7 @@ public class SingUpPage extends javax.swing.JFrame {
         jLabel14.setText("Password");
         jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 300, -1, 40));
 
-        txt_password.setBackground(new java.awt.Color(153, 0, 255));
+        txt_password.setBackground(new java.awt.Color(153, 102, 255));
         txt_password.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         txt_password.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         txt_password.setPlaceholder("Enter Password ...");
@@ -367,7 +374,7 @@ public class SingUpPage extends javax.swing.JFrame {
         jLabel16.setText("Email");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 410, -1, 40));
 
-        txt_email.setBackground(new java.awt.Color(153, 0, 255));
+        txt_email.setBackground(new java.awt.Color(153, 102, 255));
         txt_email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         txt_email.setPlaceholder("someone@example.com");
@@ -391,6 +398,11 @@ public class SingUpPage extends javax.swing.JFrame {
 
         rSMaterialButtonCircle2.setBackground(new java.awt.Color(0, 0, 255));
         rSMaterialButtonCircle2.setText("Login");
+        rSMaterialButtonCircle2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(rSMaterialButtonCircle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 700, 230, 60));
 
         rSMaterialButtonCircle3.setBackground(new java.awt.Color(255, 0, 102));
@@ -436,7 +448,12 @@ public class SingUpPage extends javax.swing.JFrame {
     private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
         
         if(validSingup() == true ){
+            if(checkDuplicateUser() == false){
             insertSingupDetails();
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Username already exist");
+            }
         }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
@@ -445,6 +462,10 @@ public class SingUpPage extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Username already exist");
         }
     }//GEN-LAST:event_txt_usernameFocusLost
+
+    private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
+        login();
+    }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     /**
      * @param args the command line arguments
