@@ -5,11 +5,13 @@
 package JFrame;
 
 import static JFrame.DBConnection.con;
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -23,6 +25,10 @@ public class ManageStudents extends javax.swing.JFrame {
     /**
      * Creates new form ManageBooks
      */
+    
+     Color mouseEnterColorMin = new Color(187,187,187);
+    Color mouseEnterColorExit = new Color(255,0,0);    
+    Color mouseExitColor = new Color(255,255,255);
     
     String student_name, course, branch;
     int student_id;
@@ -200,7 +206,8 @@ public class ManageStudents extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        lbl_minimize = new javax.swing.JLabel();
+        lbl_exit = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_Studentdetails = new rojeru_san.complementos.RSTableMetro();
         jLabel3 = new javax.swing.JLabel();
@@ -226,9 +233,9 @@ public class ManageStudents extends javax.swing.JFrame {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 110, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 40));
 
         jLabel19.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -345,21 +352,44 @@ public class ManageStudents extends javax.swing.JFrame {
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
-        jPanel5.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("X");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_minimize.setFont(new java.awt.Font("Verdana", 0, 35)); // NOI18N
+        lbl_minimize.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_minimize.setText(" -");
+        lbl_minimize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                lbl_minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseExited(evt);
             }
         });
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 30, 30));
+        jPanel5.add(lbl_minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 0, 70, 30));
+        lbl_exit.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_exit.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        lbl_exit.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_exit.setText(" X");
+        lbl_exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseExited(evt);
+            }
+        });
+        jPanel5.add(lbl_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 40, 40));
+
+        jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 120, 50));
 
         tb_Studentdetails.setBackground(new java.awt.Color(187, 187, 187));
         tb_Studentdetails.setModel(new javax.swing.table.DefaultTableModel(
@@ -464,10 +494,6 @@ public class ManageStudents extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jLabel1MouseClicked
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_jLabel2MouseClicked
-
     private void tb_StudentdetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_StudentdetailsMouseClicked
         
         int rowNo = tb_Studentdetails.getSelectedRow();
@@ -481,6 +507,38 @@ public class ManageStudents extends javax.swing.JFrame {
     private void combo_CourseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combo_CourseActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_combo_CourseActionPerformed
+
+    private void lbl_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseClicked
+        setExtendedState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_lbl_minimizeMouseClicked
+
+    private void lbl_minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseEntered
+        lbl_minimize.setBackground(mouseEnterColorMin);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseEntered
+
+    private void lbl_minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseExited
+        lbl_minimize.setBackground(mouseExitColor);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseExited
+
+    private void lbl_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_lbl_exitMouseClicked
+
+    private void lbl_exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseEntered
+        lbl_exit.setBackground(mouseEnterColorExit);
+        lbl_exit.setOpaque(true); // Make sure this is set to true
+        lbl_exit.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_exitMouseEntered
+
+    private void lbl_exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseExited
+        lbl_exit.setBackground(mouseExitColor);
+        lbl_exit.setOpaque(true); // Make sure this is set to true
+        lbl_exit.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_exitMouseExited
 
     /**
      * @param args the command line arguments
@@ -526,7 +584,6 @@ public class ManageStudents extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
@@ -539,6 +596,8 @@ public class ManageStudents extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_exit;
+    private javax.swing.JLabel lbl_minimize;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle2;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle3;

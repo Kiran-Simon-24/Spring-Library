@@ -4,9 +4,13 @@
  */
 package JFrame;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author kingk
@@ -18,7 +22,9 @@ public class IssuedBook extends javax.swing.JFrame {
     /**
      * Creates new form IssuedBook
      */
-    
+    Color mouseEnterColorMin = new Color(187,187,187);
+    Color mouseEnterColorExit = new Color(255,0,0);    
+    Color mouseExitColor = new Color(255,255,255);
     
     public IssuedBook() {
         initComponents();
@@ -34,11 +40,14 @@ public class IssuedBook extends javax.swing.JFrame {
             pst.setInt(1, book_id);
             ResultSet rs = pst.executeQuery();
             
-            while(rs.next()){
+            if(rs.next()){
                 lbl_bookId.setText(rs.getString("book_id"));
                 lbl_bookName.setText(rs.getString("book_name"));
                 lbl_author.setText(rs.getString("author"));
                 lbl_quantity.setText(rs.getString("quantity"));  
+            }
+            else{
+                lbl_bookError.setText("Invalid Book id");
             }
         } 
         catch (Exception e) {
@@ -56,11 +65,14 @@ public class IssuedBook extends javax.swing.JFrame {
             pst.setInt(1, student_id);
             ResultSet rs = pst.executeQuery();
             
-            while(rs.next()){
+            if(rs.next()){
                 lbl_studentId.setText(rs.getString("student_id"));
                 lbl_studentName.setText(rs.getString("student_name"));
                 lbl_course.setText(rs.getString("course"));
                 lbl_branch.setText(rs.getString("branch"));  
+            }
+            else{
+                lbl_studentError.setText("Invalid Student id");
             }
         } 
         catch (Exception e) {
@@ -68,6 +80,107 @@ public class IssuedBook extends javax.swing.JFrame {
         }
     }
     
+    // insert issue book details to DB
+    public boolean issueBook(){
+        
+        boolean isIssue = false;
+        int book_id = Integer.parseInt(txt_bookId.getText());
+        int student_id = Integer.parseInt(txt_studentId.getText());
+        String bookName = lbl_bookName.getText();
+        String studentName = lbl_studentName.getText();
+        
+        java.time.LocalDate uIssueDate = datepicker_DueDate.getDate();
+        java.time.LocalDate uDueDate = datepicker_DueDate.getDate();
+        
+        //long l1 = uIssueDate.getTime();
+        //long l2 = uDueDate.getTime();
+        java.sql.Date sIssueDate = java.sql.Date.valueOf(uIssueDate);
+        java.sql.Date sDueDate = java.sql.Date.valueOf(uDueDate);
+       
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "Insert into issue_book (Book_id,Book_name, Student_id, Student_name, Issue_date ,Due_date,status) values (?,?,?,?,?,?,?)";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, book_id);
+            pst.setString(2, bookName);
+            pst.setInt(3, student_id);
+            pst.setString(4, studentName);
+            pst.setDate(5, sIssueDate);
+            pst.setDate(6, sDueDate);
+            pst.setString(7, "Pending");
+            
+            int rowCount = pst.executeUpdate();
+            
+            if(rowCount > 0){
+                isIssue = true;
+            }
+            else{
+                isIssue = false;
+            }      
+            
+        } 
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isIssue;
+}
+ 
+    //Updating Book count
+    
+    public void updateBookCount(){
+        int book_id = Integer.parseInt(txt_bookId.getText());
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "Update book_details set quantity = quantity - 1 where book_id =?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, book_id);
+            
+            int rowCount = pst.executeUpdate();
+            if(rowCount > 0){
+                JOptionPane.showMessageDialog(this, "Book count updated");
+                int initialCount = Integer.parseInt(lbl_quantity.getText());
+                lbl_quantity.setText(Integer.toString(initialCount - 1));
+                
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "Can't update Book count");
+            }
+        } 
+        catch (Exception e) {
+            
+          e.printStackTrace();
+        }
+    }
+    
+    //Checking whether book already issued or not
+    
+    public boolean isAlreadyIssued(){
+        boolean isAlreadyIssued = false;
+        int book_id = Integer.parseInt(txt_bookId.getText());
+        int student_id = Integer.parseInt(txt_studentId.getText());
+        
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "Select * from issue_book where book_id = ? and student_id = ? and status = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, book_id);
+            pst.setInt(2, student_id);
+            pst.setString(3, "pending");
+            
+            ResultSet rs = pst.executeQuery();
+            
+            if(rs.next()){
+                isAlreadyIssued = true;
+            }
+            else{
+            isAlreadyIssued = false;
+        }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return isAlreadyIssued;
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,7 +194,7 @@ public class IssuedBook extends javax.swing.JFrame {
         panel_main = new javax.swing.JPanel();
         pl_bookDetails = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
+        lbl_bookError = new javax.swing.JLabel();
         lbl_quantity = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -92,6 +205,7 @@ public class IssuedBook extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         pl_studentDetails = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -104,19 +218,21 @@ public class IssuedBook extends javax.swing.JFrame {
         lbl_studentName = new javax.swing.JLabel();
         lbl_course = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
+        lbl_studentError = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
+        lbl_minimize = new javax.swing.JLabel();
+        lbl_exit = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         txt_bookId = new app.bolivia.swing.JCTextField();
         txt_studentId = new app.bolivia.swing.JCTextField();
         jLabel21 = new javax.swing.JLabel();
-        date_IssueDate = new rojeru_san.componentes.RSDateChooser();
         jLabel26 = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
-        date_DueDate = new rojeru_san.componentes.RSDateChooser();
         rSMaterialButtonCircle1 = new necesario.RSMaterialButtonCircle();
+        datepicker_DueDate = new com.github.lgooddatepicker.components.DatePicker();
+        datepicker_IssueDate1 = new com.github.lgooddatepicker.components.DatePicker();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -145,10 +261,9 @@ public class IssuedBook extends javax.swing.JFrame {
 
         pl_bookDetails.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 320, 5));
 
-        jLabel13.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Quantity :");
-        pl_bookDetails.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 130, -1));
+        lbl_bookError.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        lbl_bookError.setForeground(new java.awt.Color(255, 255, 0));
+        pl_bookDetails.add(lbl_bookError, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 660, 320, 40));
 
         lbl_quantity.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
         lbl_quantity.setForeground(new java.awt.Color(255, 255, 255));
@@ -190,19 +305,24 @@ public class IssuedBook extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(255, 51, 51));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
+        jLabel1.setText("Back");
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
-        jLabel1.setText("Back");
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 110, -1));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
 
-        pl_bookDetails.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
+        pl_bookDetails.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 40));
+
+        jLabel28.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Quantity :");
+        pl_bookDetails.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 130, -1));
 
         panel_main.add(pl_bookDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 800));
 
@@ -283,23 +403,50 @@ public class IssuedBook extends javax.swing.JFrame {
         jLabel25.setText(" Student Details");
         pl_studentDetails.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 90, 300, 100));
 
+        lbl_studentError.setFont(new java.awt.Font("Yu Gothic UI", 0, 20)); // NOI18N
+        lbl_studentError.setForeground(new java.awt.Color(255, 255, 0));
+        pl_studentDetails.add(lbl_studentError, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 660, 320, 40));
+
         panel_main.add(pl_studentDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 0, 420, 800));
 
-        jPanel7.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("X");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_minimize.setText(" -");
+        lbl_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_minimize.setFont(new java.awt.Font("Verdana", 0, 35)); // NOI18N
+        lbl_minimize.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_minimize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
+                lbl_minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseExited(evt);
             }
         });
-        jPanel7.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 0, 30, 30));
+        jPanel7.add(lbl_minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 0, 40, 40));
 
-        panel_main.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1340, 0, 70, -1));
+        lbl_exit.setText(" X");
+        lbl_exit.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_exit.setFont(new java.awt.Font("Verdana", 0, 25)); // NOI18N
+        lbl_exit.setForeground(new java.awt.Color(51, 51, 51));
+        lbl_exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseExited(evt);
+            }
+        });
+        jPanel7.add(lbl_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 0, 40, 40));
+
+        panel_main.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1290, 0, 120, 50));
 
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 25)); // NOI18N
@@ -355,12 +502,6 @@ public class IssuedBook extends javax.swing.JFrame {
         jLabel21.setText("Issue Date :");
         panel_main.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 470, 130, 30));
 
-        date_IssueDate.setColorBackground(new java.awt.Color(255, 51, 51));
-        date_IssueDate.setColorForeground(new java.awt.Color(102, 102, 102));
-        date_IssueDate.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        date_IssueDate.setPlaceholder("Select Issue Date");
-        panel_main.add(date_IssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 460, 270, -1));
-
         jLabel26.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel26.setForeground(new java.awt.Color(255, 51, 51));
         jLabel26.setText("Student id :");
@@ -371,12 +512,6 @@ public class IssuedBook extends javax.swing.JFrame {
         jLabel27.setText("Due Date :");
         panel_main.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 570, 130, 30));
 
-        date_DueDate.setColorBackground(new java.awt.Color(255, 51, 51));
-        date_DueDate.setColorForeground(new java.awt.Color(102, 102, 102));
-        date_DueDate.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
-        date_DueDate.setPlaceholder("Select Due Date");
-        panel_main.add(date_DueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 560, 270, -1));
-
         rSMaterialButtonCircle1.setBackground(new java.awt.Color(255, 0, 51));
         rSMaterialButtonCircle1.setText("ISSUE BOOK");
         rSMaterialButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
@@ -386,15 +521,28 @@ public class IssuedBook extends javax.swing.JFrame {
         });
         panel_main.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 660, 310, 70));
 
+        datepicker_DueDate.setText("  Select Due Date");
+        datepicker_DueDate.setBackground(new java.awt.Color(0, 0, 0));
+        datepicker_DueDate.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        datepicker_DueDate.setForeground(new java.awt.Color(255, 255, 255));
+        panel_main.add(datepicker_DueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 560, 270, 40));
+        datepicker_DueDate.getAccessibleContext().setAccessibleName("");
+
+        datepicker_IssueDate1.setText("  Select Issue Date"); // NOI18N
+        datepicker_IssueDate1.setBackground(new java.awt.Color(0, 0, 0));
+        datepicker_IssueDate1.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
+        datepicker_IssueDate1.setForeground(new java.awt.Color(255, 255, 255));
+        panel_main.add(datepicker_IssueDate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1060, 460, 270, 40));
+
         getContentPane().add(panel_main, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 800));
 
         setSize(new java.awt.Dimension(1410, 800));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_jLabel4MouseClicked
+    private void lbl_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseClicked
+        setExtendedState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_lbl_minimizeMouseClicked
 
     private void txt_studentIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_studentIdActionPerformed
         // TODO add your handling code here:
@@ -412,6 +560,24 @@ public class IssuedBook extends javax.swing.JFrame {
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
         
+        if(lbl_quantity.getText().equals("0")){
+            JOptionPane.showMessageDialog(this, "Book is not avaliable");
+        }
+        else{
+            if(isAlreadyIssued() == false){
+            
+                if(issueBook() == true){
+                    JOptionPane.showMessageDialog(this, "Book issued successfully");
+                    updateBookCount();
+                }
+                else{
+                    JOptionPane.showMessageDialog(this, "Book can't issue!");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(this, "This student already has this book!");
+            }   
+        }  
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void txt_bookIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_bookIdFocusLost
@@ -425,6 +591,34 @@ public class IssuedBook extends javax.swing.JFrame {
             getStudentDetails();
         }
     }//GEN-LAST:event_txt_studentIdFocusLost
+
+    private void lbl_minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseEntered
+        lbl_minimize.setBackground(mouseEnterColorMin);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseEntered
+
+    private void lbl_minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseExited
+        lbl_minimize.setBackground(mouseExitColor);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseExited
+
+    private void lbl_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseClicked
+        System.exit(0);
+    }//GEN-LAST:event_lbl_exitMouseClicked
+
+    private void lbl_exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseEntered
+        lbl_exit.setBackground(mouseEnterColorExit);
+        lbl_exit.setOpaque(true); // Make sure this is set to true
+        lbl_exit.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_exitMouseEntered
+
+    private void lbl_exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseExited
+        lbl_exit.setBackground(mouseExitColor);
+        lbl_exit.setOpaque(true); // Make sure this is set to true
+        lbl_exit.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_exitMouseExited
 
     /**
      * @param args the command line arguments
@@ -462,11 +656,10 @@ public class IssuedBook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private rojeru_san.componentes.RSDateChooser date_DueDate;
-    private rojeru_san.componentes.RSDateChooser date_IssueDate;
+    private com.github.lgooddatepicker.components.DatePicker datepicker_DueDate;
+    private com.github.lgooddatepicker.components.DatePicker datepicker_IssueDate1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -481,18 +674,22 @@ public class IssuedBook extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel28;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lbl_author;
+    private javax.swing.JLabel lbl_bookError;
     private javax.swing.JLabel lbl_bookId;
     private javax.swing.JLabel lbl_bookName;
     private javax.swing.JLabel lbl_branch;
     private javax.swing.JLabel lbl_course;
+    private javax.swing.JLabel lbl_exit;
+    private javax.swing.JLabel lbl_minimize;
     private javax.swing.JLabel lbl_quantity;
+    private javax.swing.JLabel lbl_studentError;
     private javax.swing.JLabel lbl_studentId;
     private javax.swing.JLabel lbl_studentName;
     private javax.swing.JPanel panel_main;
