@@ -6,6 +6,7 @@ package JFrame;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import javax.swing.JFrame;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -22,6 +23,9 @@ public class HomePage extends javax.swing.JFrame {
      * Creates new form HomePage
      */
     
+    Color mouseEnterColorMin = new Color(187,187,187);
+    Color mouseEnterColorExit = new Color(255,0,0);    
+    Color mouseExitColorPanel = new Color(102,102,255);
     Color mouseEnterColor = new Color(0,0,0);
     Color mouseExitColor = new Color(51,51,51);
     
@@ -73,29 +77,30 @@ public class HomePage extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbl_minimize = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        lbl_exit = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        jPanel14 = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jPanel12 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
-        jPanel13 = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jPanel9 = new javax.swing.JPanel();
-        jLabel11 = new javax.swing.JLabel();
+        pl_ManageBook = new javax.swing.JPanel();
+        lbl_ManageBook = new javax.swing.JLabel();
+        pl_ManageStudents = new javax.swing.JPanel();
+        lbl_ManageStudents = new javax.swing.JLabel();
+        pl_IssueBook = new javax.swing.JPanel();
+        lbl_IssueBook = new javax.swing.JLabel();
+        pl_ReturnBook = new javax.swing.JPanel();
+        lbl_ReturnBook = new javax.swing.JLabel();
+        pl_ViewRecord = new javax.swing.JPanel();
+        lbl_ViewRecord = new javax.swing.JLabel();
+        pl_ViewIssuedBook = new javax.swing.JPanel();
+        lbl_ViewIssuedBook = new javax.swing.JLabel();
+        pl_DefaultList = new javax.swing.JPanel();
+        lbl_DefaultList = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
@@ -146,15 +151,22 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, 5, 50));
 
-        jLabel1.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("X");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_minimize.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_minimize.setFont(new java.awt.Font("Yu Gothic UI", 1, 38)); // NOI18N
+        lbl_minimize.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_minimize.setText(" -");
+        lbl_minimize.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                lbl_minimizeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_minimizeMouseExited(evt);
             }
         });
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1440, 0, -1, -1));
+        jPanel1.add(lbl_minimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(1390, 0, 40, 40));
 
         jLabel3.setFont(new java.awt.Font("Yu Gothic UI Light", 0, 25)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -165,7 +177,23 @@ public class HomePage extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/male_user_50px.png"))); // NOI18N
         jLabel5.setText("Welcome Admin");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 10, 210, -1));
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 10, 210, -1));
+
+        lbl_exit.setFont(new java.awt.Font("Yu Gothic UI", 1, 30)); // NOI18N
+        lbl_exit.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_exit.setText(" X");
+        lbl_exit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_exitMouseExited(evt);
+            }
+        });
+        jPanel1.add(lbl_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1430, 0, 40, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1470, 70));
 
@@ -206,161 +234,167 @@ public class HomePage extends javax.swing.JFrame {
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 340, 60));
 
-        jPanel7.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_ManageBook.setBackground(new java.awt.Color(51, 51, 51));
+        pl_ManageBook.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel9.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Book_26px.png"))); // NOI18N
-        jLabel9.setText("   Manage Books");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_ManageBook.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_ManageBook.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_ManageBook.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_ManageBook.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ManageBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Book_26px.png"))); // NOI18N
+        lbl_ManageBook.setText("   Manage Books");
+        lbl_ManageBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
+                lbl_ManageBookMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel9MouseEntered(evt);
+                lbl_ManageBookMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel9MouseExited(evt);
+                lbl_ManageBookMouseExited(evt);
             }
         });
-        jPanel7.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 210, 40));
+        pl_ManageBook.add(lbl_ManageBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 210, 40));
 
-        jPanel2.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 340, 60));
+        jPanel2.add(pl_ManageBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 340, 60));
 
-        jPanel8.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_ManageStudents.setBackground(new java.awt.Color(51, 51, 51));
+        pl_ManageStudents.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel10.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Read_Online_26px.png"))); // NOI18N
-        jLabel10.setText("   Manage Students");
-        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_ManageStudents.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_ManageStudents.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_ManageStudents.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_ManageStudents.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ManageStudents.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Read_Online_26px.png"))); // NOI18N
+        lbl_ManageStudents.setText("   Manage Students");
+        lbl_ManageStudents.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel10MouseClicked(evt);
+                lbl_ManageStudentsMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel10MouseEntered(evt);
+                lbl_ManageStudentsMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel10MouseExited(evt);
+                lbl_ManageStudentsMouseExited(evt);
             }
         });
-        jPanel8.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 210, 40));
+        pl_ManageStudents.add(lbl_ManageStudents, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, 210, 40));
 
-        jPanel2.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 340, 60));
+        jPanel2.add(pl_ManageStudents, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, 340, 60));
 
-        jPanel14.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_IssueBook.setBackground(new java.awt.Color(51, 51, 51));
+        pl_IssueBook.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel16.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Sell_26px.png"))); // NOI18N
-        jLabel16.setText("   Issue Book");
-        jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_IssueBook.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_IssueBook.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_IssueBook.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_IssueBook.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_IssueBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Sell_26px.png"))); // NOI18N
+        lbl_IssueBook.setText("   Issue Book");
+        lbl_IssueBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel16MouseClicked(evt);
+                lbl_IssueBookMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel16MouseEntered(evt);
+                lbl_IssueBookMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel16MouseExited(evt);
+                lbl_IssueBookMouseExited(evt);
             }
         });
-        jPanel14.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 210, 40));
+        pl_IssueBook.add(lbl_IssueBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 210, 40));
 
-        jPanel2.add(jPanel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 340, 60));
+        jPanel2.add(pl_IssueBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 340, 60));
 
-        jPanel10.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_ReturnBook.setBackground(new java.awt.Color(51, 51, 51));
+        pl_ReturnBook.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel12.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Return_Purchase_26px.png"))); // NOI18N
-        jLabel12.setText("   Return Book");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_ReturnBook.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_ReturnBook.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_ReturnBook.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_ReturnBook.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ReturnBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Return_Purchase_26px.png"))); // NOI18N
+        lbl_ReturnBook.setText("   Return Book");
+        lbl_ReturnBook.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_ReturnBookMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel12MouseEntered(evt);
+                lbl_ReturnBookMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel12MouseExited(evt);
+                lbl_ReturnBookMouseExited(evt);
             }
         });
-        jPanel10.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 210, 40));
+        pl_ReturnBook.add(lbl_ReturnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 210, 40));
 
-        jPanel2.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 340, 60));
+        jPanel2.add(pl_ReturnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 340, 60));
 
-        jPanel12.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel12.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_ViewRecord.setBackground(new java.awt.Color(51, 51, 51));
+        pl_ViewRecord.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel13.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_View_Details_26px.png"))); // NOI18N
-        jLabel13.setText("   View Record");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_ViewRecord.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_ViewRecord.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_ViewRecord.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_ViewRecord.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ViewRecord.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_View_Details_26px.png"))); // NOI18N
+        lbl_ViewRecord.setText("   View Record");
+        lbl_ViewRecord.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_ViewRecordMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel13MouseEntered(evt);
+                lbl_ViewRecordMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel13MouseExited(evt);
+                lbl_ViewRecordMouseExited(evt);
             }
         });
-        jPanel12.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 210, 40));
+        pl_ViewRecord.add(lbl_ViewRecord, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 210, 40));
 
-        jPanel2.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 340, 60));
+        jPanel2.add(pl_ViewRecord, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 460, 340, 60));
 
-        jPanel13.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel13.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_ViewIssuedBook.setBackground(new java.awt.Color(51, 51, 51));
+        pl_ViewIssuedBook.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel15.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Books_26px.png"))); // NOI18N
-        jLabel15.setText("   View Issued Book");
-        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_ViewIssuedBook.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_ViewIssuedBook.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_ViewIssuedBook.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_ViewIssuedBook.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ViewIssuedBook.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Books_26px.png"))); // NOI18N
+        lbl_ViewIssuedBook.setText("   View Issued Book");
+        lbl_ViewIssuedBook.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel15MouseEntered(evt);
+                lbl_ViewIssuedBookMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel15MouseExited(evt);
+                lbl_ViewIssuedBookMouseExited(evt);
             }
         });
-        jPanel13.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 250, 50));
+        pl_ViewIssuedBook.add(lbl_ViewIssuedBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 250, 50));
 
-        jPanel2.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 340, 60));
+        jPanel2.add(pl_ViewIssuedBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 520, 340, 60));
 
-        jPanel9.setBackground(new java.awt.Color(51, 51, 51));
-        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pl_DefaultList.setBackground(new java.awt.Color(51, 51, 51));
+        pl_DefaultList.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setBackground(new java.awt.Color(51, 51, 51));
-        jLabel11.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Conference_26px.png"))); // NOI18N
-        jLabel11.setText("   Default List");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_DefaultList.setBackground(new java.awt.Color(51, 51, 51));
+        lbl_DefaultList.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
+        lbl_DefaultList.setForeground(new java.awt.Color(153, 153, 153));
+        lbl_DefaultList.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_DefaultList.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/icons8_Conference_26px.png"))); // NOI18N
+        lbl_DefaultList.setText("   Default List");
+        lbl_DefaultList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel11MouseEntered(evt);
+                lbl_DefaultListMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel11MouseExited(evt);
+                lbl_DefaultListMouseExited(evt);
             }
         });
-        jPanel9.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 260, 40));
+        pl_DefaultList.add(lbl_DefaultList, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 260, 40));
 
-        jPanel2.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 580, 340, 60));
+        jPanel2.add(pl_DefaultList, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 580, 340, 60));
 
         jPanel11.setBackground(new java.awt.Color(102, 102, 255));
         jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -600,83 +634,121 @@ public class HomePage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-       System.exit(0);
-    }//GEN-LAST:event_jLabel1MouseClicked
+    private void lbl_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseClicked
+        setExtendedState(JFrame.ICONIFIED);
+    }//GEN-LAST:event_lbl_minimizeMouseClicked
 
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+    private void lbl_ManageBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageBookMouseClicked
         ManageBooks manageBooks = new ManageBooks();
         manageBooks.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jLabel9MouseClicked
+    }//GEN-LAST:event_lbl_ManageBookMouseClicked
 
-    private void jLabel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseEntered
-        jPanel7.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel9MouseEntered
+    private void lbl_ManageBookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageBookMouseEntered
+        pl_ManageBook.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_ManageBookMouseEntered
 
-    private void jLabel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseExited
-        jPanel7.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel9MouseExited
+    private void lbl_ManageBookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageBookMouseExited
+        pl_ManageBook.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_ManageBookMouseExited
 
-    private void jLabel10MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseEntered
-      jPanel8.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel10MouseEntered
+    private void lbl_ManageStudentsMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageStudentsMouseEntered
+      pl_ManageStudents.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_ManageStudentsMouseEntered
 
-    private void jLabel10MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseExited
-        jPanel8.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel10MouseExited
+    private void lbl_ManageStudentsMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageStudentsMouseExited
+        pl_ManageStudents.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_ManageStudentsMouseExited
 
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
+    private void lbl_ManageStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ManageStudentsMouseClicked
         ManageStudents manageStudent = new ManageStudents();
         manageStudent.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jLabel10MouseClicked
+    }//GEN-LAST:event_lbl_ManageStudentsMouseClicked
 
-    private void jLabel16MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseEntered
-        jPanel6.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel16MouseEntered
+    private void lbl_IssueBookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_IssueBookMouseEntered
+        pl_IssueBook.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_IssueBookMouseEntered
 
-    private void jLabel16MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseExited
-        jPanel6.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel16MouseExited
+    private void lbl_IssueBookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_IssueBookMouseExited
+        pl_IssueBook.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_IssueBookMouseExited
 
-    private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
+    private void lbl_IssueBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_IssueBookMouseClicked
        IssuedBook issueBook = new IssuedBook();
        issueBook.setVisible(true);
        dispose();
-    }//GEN-LAST:event_jLabel16MouseClicked
+    }//GEN-LAST:event_lbl_IssueBookMouseClicked
 
-    private void jLabel12MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseEntered
-       jLabel12.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel12MouseEntered
+    private void lbl_ReturnBookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ReturnBookMouseEntered
+       pl_ReturnBook.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_ReturnBookMouseEntered
 
-    private void jLabel12MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseExited
-       jLabel12.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel12MouseExited
+    private void lbl_ReturnBookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ReturnBookMouseExited
+       pl_ReturnBook.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_ReturnBookMouseExited
 
-    private void jLabel13MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseEntered
-         jLabel13.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel13MouseEntered
+    private void lbl_ViewRecordMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ViewRecordMouseEntered
+         pl_ViewRecord.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_ViewRecordMouseEntered
 
-    private void jLabel13MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseExited
-        jLabel13.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel13MouseExited
+    private void lbl_ViewRecordMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ViewRecordMouseExited
+        pl_ViewRecord.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_ViewRecordMouseExited
 
-    private void jLabel15MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseEntered
-        jLabel15.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel15MouseEntered
+    private void lbl_ViewIssuedBookMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ViewIssuedBookMouseEntered
+        pl_ViewIssuedBook.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_ViewIssuedBookMouseEntered
 
-    private void jLabel15MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseExited
-        jLabel15.setBackground(mouseExitColor);
-    }//GEN-LAST:event_jLabel15MouseExited
+    private void lbl_ViewIssuedBookMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ViewIssuedBookMouseExited
+        pl_ViewIssuedBook.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_ViewIssuedBookMouseExited
 
-    private void jLabel11MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseEntered
-        jLabel11.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel11MouseEntered
+    private void lbl_DefaultListMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_DefaultListMouseEntered
+        pl_DefaultList.setBackground(mouseEnterColor);
+    }//GEN-LAST:event_lbl_DefaultListMouseEntered
 
-    private void jLabel11MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseExited
-        jLabel11.setBackground(mouseEnterColor);
-    }//GEN-LAST:event_jLabel11MouseExited
+    private void lbl_DefaultListMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_DefaultListMouseExited
+        pl_DefaultList.setBackground(mouseExitColor);
+    }//GEN-LAST:event_lbl_DefaultListMouseExited
+
+    private void lbl_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseClicked
+       System.exit(0);
+    }//GEN-LAST:event_lbl_exitMouseClicked
+
+    private void lbl_exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseEntered
+        lbl_exit.setBackground(mouseEnterColorExit);
+        lbl_exit.setOpaque(true); // Make sure this is set to true
+        lbl_exit.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_exitMouseEntered
+
+    private void lbl_exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseExited
+       lbl_exit.setBackground(mouseExitColorPanel);
+    }//GEN-LAST:event_lbl_exitMouseExited
+
+    private void lbl_minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseEntered
+        lbl_minimize.setBackground(mouseEnterColorMin);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseEntered
+
+    private void lbl_minimizeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseExited
+        lbl_minimize.setBackground(mouseExitColorPanel);
+        lbl_minimize.setOpaque(true); // Make sure this is set to true
+        lbl_minimize.repaint(); // Repaint to apply changes
+    }//GEN-LAST:event_lbl_minimizeMouseExited
+
+    private void lbl_ReturnBookMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ReturnBookMouseClicked
+        ReturnBook returnBook = new ReturnBook();
+        returnBook.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lbl_ReturnBookMouseClicked
+
+    private void lbl_ViewRecordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_ViewRecordMouseClicked
+       ViewAllRecord viewRecord = new ViewAllRecord();
+       viewRecord.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_lbl_ViewRecordMouseClicked
 
     /**
      * @param args the command line arguments
@@ -714,14 +786,7 @@ public class HomePage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -738,13 +803,8 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel12;
-    private javax.swing.JPanel jPanel13;
-    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
@@ -754,12 +814,25 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel lbl_DefaultList;
+    private javax.swing.JLabel lbl_IssueBook;
+    private javax.swing.JLabel lbl_ManageBook;
+    private javax.swing.JLabel lbl_ManageStudents;
+    private javax.swing.JLabel lbl_ReturnBook;
+    private javax.swing.JLabel lbl_ViewIssuedBook;
+    private javax.swing.JLabel lbl_ViewRecord;
+    private javax.swing.JLabel lbl_exit;
+    private javax.swing.JLabel lbl_minimize;
     private javax.swing.JPanel panelPieChart;
+    private javax.swing.JPanel pl_DefaultList;
+    private javax.swing.JPanel pl_IssueBook;
+    private javax.swing.JPanel pl_ManageBook;
+    private javax.swing.JPanel pl_ManageStudents;
+    private javax.swing.JPanel pl_ReturnBook;
+    private javax.swing.JPanel pl_ViewIssuedBook;
+    private javax.swing.JPanel pl_ViewRecord;
     private rojeru_san.complementos.RSTableMetro rSTableMetro2;
     private rojeru_san.complementos.RSTableMetro rSTableMetro3;
     // End of variables declaration//GEN-END:variables

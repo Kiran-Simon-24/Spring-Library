@@ -187,7 +187,7 @@ public class ManageBooks extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbl_back = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         txt_bookID = new app.bolivia.swing.JCTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -220,22 +220,21 @@ public class ManageBooks extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
-        jLabel1.setText("Back");
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/iconmonstr-arrow-left-alt-filled-48 blue.png"))); // NOI18N
+        lbl_back.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_back.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
+        lbl_back.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                lbl_backMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
+        jPanel2.add(lbl_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 40));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 40));
 
         jLabel19.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -396,7 +395,6 @@ public class ManageBooks extends javax.swing.JFrame {
 
         jPanel3.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 0, 120, 50));
 
-        tb_bookdetails.setBackground(new java.awt.Color(187, 187, 187));
         tb_bookdetails.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -405,6 +403,7 @@ public class ManageBooks extends javax.swing.JFrame {
                 "Book id", "Name", "Author", "Quantity"
             }
         ));
+        tb_bookdetails.setBackground(new java.awt.Color(187, 187, 187));
         tb_bookdetails.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
         tb_bookdetails.setColorBordeFilas(new java.awt.Color(102, 102, 255));
         tb_bookdetails.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
@@ -501,11 +500,11 @@ public class ManageBooks extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void lbl_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_backMouseClicked
         HomePage home = new HomePage();
         home.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_lbl_backMouseClicked
 
     private void tb_bookdetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_bookdetailsMouseClicked
         
@@ -585,7 +584,6 @@ public class ManageBooks extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -602,6 +600,7 @@ public class ManageBooks extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_back;
     private javax.swing.JLabel lbl_exit;
     private javax.swing.JLabel lbl_minimize;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;

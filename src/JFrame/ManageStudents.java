@@ -26,7 +26,7 @@ public class ManageStudents extends javax.swing.JFrame {
      * Creates new form ManageBooks
      */
     
-     Color mouseEnterColorMin = new Color(187,187,187);
+    Color mouseEnterColorMin = new Color(187,187,187);
     Color mouseEnterColorExit = new Color(255,0,0);    
     Color mouseExitColor = new Color(255,255,255);
     
@@ -171,9 +171,7 @@ public class ManageStudents extends javax.swing.JFrame {
     
     public void clearTable(){
         DefaultTableModel model = (DefaultTableModel) tb_Studentdetails.getModel();
-        model.setRowCount(0);
-        
-                
+        model.setRowCount(0);            
     }
 
     /**
@@ -187,7 +185,7 @@ public class ManageStudents extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbl_back = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         txt_studentID = new app.bolivia.swing.JCTextField();
         jLabel13 = new javax.swing.JLabel();
@@ -220,20 +218,19 @@ public class ManageStudents extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(153, 153, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(255, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(153, 153, 255));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Rewind_48px.png"))); // NOI18N
-        jLabel1.setText("Back");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        lbl_back.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_back.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
+        lbl_back.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_back.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminIcons/adminIcons/iconmonstr-arrow-left-alt-filled-48 blue.png"))); // NOI18N
+        lbl_back.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
+                lbl_backMouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 100, 40));
+        jPanel2.add(lbl_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 50, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 40));
 
@@ -488,11 +485,11 @@ public class ManageStudents extends javax.swing.JFrame {
        }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+    private void lbl_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_backMouseClicked
         HomePage home = new HomePage();
         home.setVisible(true);
         dispose();
-    }//GEN-LAST:event_jLabel1MouseClicked
+    }//GEN-LAST:event_lbl_backMouseClicked
 
     private void tb_StudentdetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_StudentdetailsMouseClicked
         
@@ -579,7 +576,6 @@ public class ManageStudents extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> combo_Branch;
     private javax.swing.JComboBox<String> combo_Course;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -596,6 +592,7 @@ public class ManageStudents extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lbl_back;
     private javax.swing.JLabel lbl_exit;
     private javax.swing.JLabel lbl_minimize;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;

@@ -101,7 +101,6 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        lbl_exit = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         txt_username = new app.bolivia.swing.JCTextField();
@@ -112,6 +111,7 @@ public class LoginPage extends javax.swing.JFrame {
         rSMaterialButtonCircle2 = new necesario.RSMaterialButtonCircle();
         rSMaterialButtonCircle3 = new necesario.RSMaterialButtonCircle();
         jLabel16 = new javax.swing.JLabel();
+        lbl_exit1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Spring Digital Library");
@@ -163,23 +163,6 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel2.setMinimumSize(new java.awt.Dimension(600, 800));
         jPanel2.setPreferredSize(new java.awt.Dimension(600, 800));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        lbl_exit.setBackground(new java.awt.Color(255, 255, 255));
-        lbl_exit.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 30)); // NOI18N
-        lbl_exit.setForeground(new java.awt.Color(255, 255, 255));
-        lbl_exit.setText("  X");
-        lbl_exit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lbl_exitMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                lbl_exitMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                lbl_exitMouseExited(evt);
-            }
-        });
-        jPanel2.add(lbl_exit, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 50, 40));
 
         jLabel9.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -251,6 +234,23 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel16.setText("Library Login");
         jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, -1, 40));
 
+        lbl_exit1.setBackground(new java.awt.Color(255, 255, 255));
+        lbl_exit1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 1, 30)); // NOI18N
+        lbl_exit1.setForeground(new java.awt.Color(255, 255, 255));
+        lbl_exit1.setText("  X");
+        lbl_exit1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_exit1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_exit1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_exit1MouseExited(evt);
+            }
+        });
+        jPanel2.add(lbl_exit1, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 10, 50, 40));
+
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 0, 420, 790));
 
         setSize(new java.awt.Dimension(1220, 788));
@@ -265,10 +265,6 @@ public class LoginPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_passwordActionPerformed
 
-    private void lbl_exitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseClicked
-        System.exit(0);
-    }//GEN-LAST:event_lbl_exitMouseClicked
-
     private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
         Singup();
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
@@ -279,17 +275,17 @@ public class LoginPage extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
-    private void lbl_exitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseExited
-        lbl_exit.setBackground(mouseExitColor);
-        lbl_exit.setOpaque(true); // Make sure this is set to true
-        lbl_exit.repaint(); // Repaint to apply changes
-    }//GEN-LAST:event_lbl_exitMouseExited
+    private void lbl_exit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exit1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_exit1MouseClicked
 
-    private void lbl_exitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exitMouseEntered
-        lbl_exit.setBackground(mouseEnterColor);
-        lbl_exit.setOpaque(true); // Make sure this is set to true
-        lbl_exit.repaint(); // Repaint to apply changes
-    }//GEN-LAST:event_lbl_exitMouseEntered
+    private void lbl_exit1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exit1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_exit1MouseEntered
+
+    private void lbl_exit1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exit1MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_exit1MouseExited
 
     /**
      * @param args the command line arguments
@@ -343,7 +339,7 @@ public class LoginPage extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lbl_exit;
+    private javax.swing.JLabel lbl_exit1;
     private necesario.RSMaterialButtonCircle rSMaterialButtonCircle2;
     private necesario.RSMaterialButtonCircle rSMaterialButtonCircle3;
     private app.bolivia.swing.JCTextField txt_password;
