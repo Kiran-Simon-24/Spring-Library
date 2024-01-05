@@ -6,4 +6,8 @@ I used Apache NetBeans IDE 20 and XAMPP for Database
 
 To run these system you need to have Internet access and install XAMPP
 
+XAMPP Download => https://www.apachefriends.org/download.html
+
+Apache NetBeans Download => https://netbeans.apache.org/front/main/download/index.html
+
 #credit Unique Developer
