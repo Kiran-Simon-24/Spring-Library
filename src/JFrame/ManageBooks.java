@@ -45,7 +45,7 @@ public class ManageBooks extends javax.swing.JFrame {
        
         try {
                 Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db","root","");
+                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db", "root", "");
                 Statement st = con.createStatement();
                 ResultSet rs = st.executeQuery("SELECT LPAD(book_id, 3, '0') book_id, book_name, author, quantity FROM book_details");
                 
@@ -64,6 +64,8 @@ public class ManageBooks extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
+     
+    
     
     // Add book to table
  
@@ -71,7 +73,11 @@ public class ManageBooks extends javax.swing.JFrame {
        
         boolean isAdded = false;
         
+        
         book_id = Integer.parseInt(txt_bookID.getText());
+          
+
+            JOptionPane.showMessageDialog(this, "Please enter a numeric value for Book ID ");
         book_name = txt_bookName.getText();
         author = txt_authorName.getText();
         quantity = Integer.parseInt(txt_quantity.getText());

@@ -17,27 +17,23 @@ import javax.swing.JOptionPane;
  */
 public class ReturnBook extends javax.swing.JFrame {
 
-    
-
     /**
      * Creates new form IssuedBook
      */
-    Color mouseEnterColorMin = new Color(187,187,187);
-    Color mouseEnterColorExit = new Color(255,0,0);    
-    Color mouseExitColor = new Color(255,255,255);
-    
+    Color mouseEnterColorMin = new Color(187, 187, 187);
+    Color mouseEnterColorExit = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(255, 255, 255);
+
     public ReturnBook() {
         initComponents();
     }
-    
+
     // to fetch the issue book_details from the DB and it dsplay to display panel
-    
-    public void getIssuedBookDetails(){
-        
-        
+    public void getIssuedBookDetails() {
+
         int book_id = Integer.parseInt(txt_bookId.getText());
         int student_id = Integer.parseInt(txt_studentId.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             String sql = "Select * from issue_book where book_id = ? and student_id = ? and status = ?";
@@ -45,40 +41,38 @@ public class ReturnBook extends javax.swing.JFrame {
             pst.setInt(1, book_id);
             pst.setInt(2, student_id);
             pst.setString(3, "pending");
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
-                
+
+            if (rs.next()) {
+
                 lbl_issueId.setText(rs.getString("id"));
                 lbl_bookName.setText(rs.getString("Book_name"));
                 lbl_studentName.setText(rs.getString("Student_name"));
                 lbl_issueDate.setText(rs.getString("Issue_date"));
                 lbl_dueDate.setText(rs.getString("Due_date"));
+
                 lbl_bookError.setText("");
-            }
-            else{
+            } else {
                 lbl_bookError.setText("Sorry! No Record Found");
-                
+
                 lbl_issueId.setText("");
                 lbl_bookName.setText("");
                 lbl_studentName.setText("");
                 lbl_issueDate.setText("");
                 lbl_dueDate.setText("");
             }
-        } 
-        catch (Exception e) {
-             e.printStackTrace();
-        } 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     //return book
-    
-    public boolean returnBook(){
+    public boolean returnBook() {
         boolean isReturned = false;
         int book_id = Integer.parseInt(txt_bookId.getText());
         int student_id = Integer.parseInt(txt_studentId.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             String sql = "update issue_book set status = ? where student_id = ? and book_id = ? and status = ?";
@@ -87,48 +81,40 @@ public class ReturnBook extends javax.swing.JFrame {
             pst.setInt(2, student_id);
             pst.setInt(3, book_id);
             pst.setString(4, "Pending");
-            
+
             int rowCount = pst.executeUpdate();
-            if(rowCount > 0){
+            if (rowCount > 0) {
                 isReturned = true;
-            }
-            else{
+            } else {
                 isReturned = false;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isReturned;
     }
-    
+
     //Updating Book count
-    
-    public void updateBookCount(){
+    public void updateBookCount() {
         int book_id = Integer.parseInt(txt_bookId.getText());
         try {
             Connection con = DBConnection.getConnection();
             String sql = "Update book_details set quantity = quantity + 1 where book_id =?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, book_id);
-            
+
             int rowCount = pst.executeUpdate();
-            if(rowCount > 0){
-                JOptionPane.showMessageDialog(this, "Book count updated");   
-            }
-            else{
+            if (rowCount > 0) {
+                JOptionPane.showMessageDialog(this, "Book count updated");
+            } else {
                 JOptionPane.showMessageDialog(this, "Can't update Book count");
             }
-        } 
-        catch (Exception e) {
-            
-          e.printStackTrace();
+        } catch (Exception e) {
+
+            e.printStackTrace();
         }
     }
-    
-    
-   
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -307,12 +293,12 @@ public class ReturnBook extends javax.swing.JFrame {
 
         panel_main.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(1290, 0, 120, 50));
 
+        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Books_52px_1.png"))); // NOI18N
+        jLabel12.setText(" Issued Book");
         jLabel12.setBackground(new java.awt.Color(255, 255, 255));
         jLabel12.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 25)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(255, 51, 51));
-        jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AddNewBookIcons/AddNewBookIcons/icons8_Books_52px_1.png"))); // NOI18N
-        jLabel12.setText(" Issued Book");
-        panel_main.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 120, 300, -1));
+        panel_main.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 120, 240, -1));
 
         jLabel19.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 51, 51));
@@ -418,21 +404,20 @@ public class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_backMouseClicked
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-        if(returnBook() == true){
+        if (returnBook() == true) {
             JOptionPane.showMessageDialog(this, "Book Returned Successfuly");
             updateBookCount();
-        }  
-        else{
-        JOptionPane.showMessageDialog(this, "Book Returned Failed!");
-    }
+        } else {
+            JOptionPane.showMessageDialog(this, "Book Returned Failed!");
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void txt_bookIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_bookIdFocusLost
-        
+
     }//GEN-LAST:event_txt_bookIdFocusLost
 
     private void txt_studentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_studentIdFocusLost
-       
+
     }//GEN-LAST:event_txt_studentIdFocusLost
 
     private void lbl_minimizeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseEntered
@@ -464,7 +449,7 @@ public class ReturnBook extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_exitMouseExited
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
-       getIssuedBookDetails();
+        getIssuedBookDetails();
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     /**

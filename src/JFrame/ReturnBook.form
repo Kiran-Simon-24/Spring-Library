@@ -377,6 +377,10 @@
         </Container>
         <Component class="javax.swing.JLabel" name="jLabel12">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/AddNewBookIcons/AddNewBookIcons/icons8_Books_52px_1.png"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value=" Issued Book"/>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
@@ -386,14 +390,10 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/AddNewBookIcons/AddNewBookIcons/icons8_Books_52px_1.png"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value=" Issued Book"/>
           </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-              <AbsoluteConstraints x="1030" y="120" width="300" height="-1"/>
+              <AbsoluteConstraints x="1030" y="120" width="240" height="-1"/>
             </Constraint>
           </Constraints>
         </Component>

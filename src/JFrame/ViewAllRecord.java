@@ -6,10 +6,12 @@ package JFrame;
 
 import static JFrame.DBConnection.con;
 import java.awt.Color;
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -24,113 +26,106 @@ public class ViewAllRecord extends javax.swing.JFrame {
     /**
      * Creates new form ViewAllRecord
      */
-    Color mouseEnterColorMin = new Color(187,187,187);
-    Color mouseEnterColorExit = new Color(255,0,0);    
-    Color mouseExitColor = new Color(102,102,255);
-    
+    Color mouseEnterColorMin = new Color(187, 187, 187);
+    Color mouseEnterColorExit = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(102, 102, 255);
+
     DefaultTableModel model;
+
     public ViewAllRecord() {
         initComponents();
         setIssuedBookDetailToTable();
     }
-    
-    public void setIssuedBookDetailToTable(){
-       
+
+    public void setIssuedBookDetailToTable() {
+
         try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db","root","");
-                Statement st = con.createStatement();
-                String sql = "SELECT\n" +
-                                               "    LPAD(id, 3, '0') as id,\n" +
-                                               "    student_name,\n" +
-                                               "    book_name,\n" +
-                                               "    DATE_FORMAT(issue_date, '%d/%m/%y') as Issue_date,\n" +
-                                               "    DATE_FORMAT(due_date, '%d/%m/%y') as Due_date,\n" +
-                                               "    status\n" +
-                                               "FROM\n" +
-                                               "    issue_book;";
-                ResultSet rs = st.executeQuery(sql);
-                
-                while(rs.next()){
-                   
-                   String id = rs.getString("id");
-                   String studentName = rs.getString("Student_name");
-                   String bookName = rs.getString("Book_name");
-                   String issueDate = rs.getString("Issue_date");
-                   String dueDate = rs.getString("Due_date");
-                   String status = rs.getString("status");
-                   
-                   
-                   Object[] obj = {id, studentName, bookName, issueDate, dueDate, status};
-                   model = (DefaultTableModel) tb_ViewAllRecord.getModel();
-                   model.addRow(obj);
-                }
-        }
-        catch (Exception e) {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db", "root", "");
+            Statement st = con.createStatement();
+            String sql = "SELECT\n"
+                    + "    LPAD(id, 3, '0') as id,\n"
+                    + "    book_name,\n"
+                    + "    student_name,\n"
+                    + "    DATE_FORMAT(issue_date, '%d/%m/%y') as Issue_date,\n"
+                    + "    DATE_FORMAT(due_date, '%d/%m/%y') as Due_date,\n"
+                    + "    status\n"
+                    + "FROM\n"
+                    + "    issue_book;";
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+
+                String id = rs.getString("id");
+                String studentName = rs.getString("Student_name");
+                String bookName = rs.getString("Book_name");
+                String issueDate = rs.getString("Issue_date");
+                String dueDate = rs.getString("Due_date");
+                String status = rs.getString("status");
+
+                Object[] obj = {id, bookName, studentName, issueDate, dueDate, status};
+                model = (DefaultTableModel) tb_ViewAllRecord.getModel();
+                model.addRow(obj);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     //Clear table method
-    
-    public void clearTable(){
+    public void clearTable() {
         DefaultTableModel model = (DefaultTableModel) tb_ViewAllRecord.getModel();
-        model.setRowCount(0);            
+        model.setRowCount(0);
     }
-    
+
     //to fetch the record using date fields
-    
-    public void search(){
-        
+    public void search() {
+
         java.time.LocalDate uFromDate = datePicker_IssueDate.getDate();
         java.time.LocalDate uToDate = datePicker_DueDate.getDate();
-        
+
         java.sql.Date fromDate = java.sql.Date.valueOf(uFromDate);
         java.sql.Date toDate = java.sql.Date.valueOf(uToDate);
-        
+
         try {
             Connection con = DBConnection.getConnection();
-            String sql= "SELECT\n" +
-                        "    LPAD(id, 3, '0') as id,\n" +
-                        "    student_name,\n" +
-                        "    book_name,\n" +
-                        "    DATE_FORMAT(issue_date, '%d/%m/%y') as Issue_date,\n" +
-                        "    DATE_FORMAT(due_date, '%d/%m/%y') as Due_date,\n" +
-                        "    status\n" +
-                        "FROM\n" +
-                        "    issue_book\n" +
-                        "WHERE\n" +
-                        "    issue_date BETWEEN ? AND ?";
+            String sql = "SELECT\n"
+                    + "    LPAD(id, 3, '0') as id,\n"
+                    + "    book_name,\n"
+                    + "    student_name,\n"
+                    + "    DATE_FORMAT(issue_date, '%d/%m/%y') as Issue_date,\n"
+                    + "    DATE_FORMAT(due_date, '%d/%m/%y') as Due_date,\n"
+                    + "    status\n"
+                    + "FROM\n"
+                    + "    issue_book\n"
+                    + "WHERE\n"
+                    + "    issue_date BETWEEN ? AND ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setDate(1, fromDate);
             pst.setDate(2, toDate);
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next() == false){
-                 JOptionPane.showMessageDialog(this, "No Record Found");
-            }
-            else{
-                while(rs.next()){
-                   String id = rs.getString("id");
-                   String studentName = rs.getString("Student_name");
-                   String bookName = rs.getString("Book_name");
-                   String issueDate = rs.getString("Issue_date");
-                   String dueDate = rs.getString("Due_date");
-                   String status = rs.getString("status");
-                   
-                   
-                   Object[] obj = {id, studentName, bookName, issueDate, dueDate, status};
-                   model = (DefaultTableModel) tb_ViewAllRecord.getModel();
-                   model.addRow(obj);
+
+            if (rs.next() == false) {
+                JOptionPane.showMessageDialog(this, "No Record Found");
+            } else {
+                while (rs.next()) {
+                    String id = rs.getString("id");
+                    String studentName = rs.getString("Student_name");
+                    String bookName = rs.getString("Book_name");
+                    String issueDate = rs.getString("Issue_date");
+                    String dueDate = rs.getString("Due_date");
+                    String status = rs.getString("status");
+
+                    Object[] obj = {id, bookName, studentName, issueDate, dueDate, status};
+                    model = (DefaultTableModel) tb_ViewAllRecord.getModel();
+                    model.addRow(obj);
                 }
-            } 
-        } 
-        catch (Exception e) {
-            e.printStackTrace();
+            }
+        } catch (HeadlessException | SQLException e) {
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -153,6 +148,7 @@ public class ViewAllRecord extends javax.swing.JFrame {
         lbl_minimize = new javax.swing.JLabel();
         lbl_exit = new javax.swing.JLabel();
         lbl_back = new javax.swing.JLabel();
+        rSMaterialButtonCircle2 = new rojerusan.RSMaterialButtonCircle();
         panel_table = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tb_ViewAllRecord = new rojeru_san.complementos.RSTableMetro();
@@ -172,33 +168,33 @@ public class ViewAllRecord extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Issue Date :");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 200, 120, 30));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 120, 30));
 
         datePicker_IssueDate.setText("Select Issue Date");
         datePicker_IssueDate.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         datePicker_IssueDate.setForeground(new java.awt.Color(51, 51, 51));
         datePicker_IssueDate.setToolTipText("");
-        jPanel2.add(datePicker_IssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 190, 270, 40));
+        jPanel2.add(datePicker_IssueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 190, 270, 40));
 
         jLabel1.setText("Due Date :");
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Verdana", 0, 17)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, 120, 30));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 200, 120, 30));
 
         datePicker_DueDate.setText("Select Due Date");
         datePicker_DueDate.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         datePicker_DueDate.setForeground(new java.awt.Color(51, 51, 51));
-        jPanel2.add(datePicker_DueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 190, 270, 40));
+        jPanel2.add(datePicker_DueDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 190, 270, 40));
 
-        rSMaterialButtonCircle1.setBackground(new java.awt.Color(255, 0, 51));
         rSMaterialButtonCircle1.setText("Search");
+        rSMaterialButtonCircle1.setBackground(new java.awt.Color(255, 0, 51));
         rSMaterialButtonCircle1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rSMaterialButtonCircle1ActionPerformed(evt);
             }
         });
-        jPanel2.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1190, 190, 190, 50));
+        jPanel2.add(rSMaterialButtonCircle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1080, 190, 150, 50));
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -268,6 +264,20 @@ public class ViewAllRecord extends javax.swing.JFrame {
         });
         jPanel2.add(lbl_back, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 60, 40));
 
+        rSMaterialButtonCircle2.setBackground(new java.awt.Color(0, 0, 204));
+        rSMaterialButtonCircle2.setText("ALL");
+        rSMaterialButtonCircle2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                rSMaterialButtonCircle2MouseClicked(evt);
+            }
+        });
+        rSMaterialButtonCircle2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rSMaterialButtonCircle2ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(rSMaterialButtonCircle2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1250, 190, 140, 50));
+
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 280));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1410, 280));
@@ -275,7 +285,6 @@ public class ViewAllRecord extends javax.swing.JFrame {
         panel_table.setBackground(new java.awt.Color(255, 255, 255));
         panel_table.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tb_ViewAllRecord.setBackground(new java.awt.Color(187, 187, 187));
         tb_ViewAllRecord.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -284,6 +293,7 @@ public class ViewAllRecord extends javax.swing.JFrame {
                 "id", "Book Name", "Student Name", "Issue Date", "Due Date", "Status"
             }
         ));
+        tb_ViewAllRecord.setBackground(new java.awt.Color(187, 187, 187));
         tb_ViewAllRecord.setColorBackgoundHead(new java.awt.Color(102, 102, 255));
         tb_ViewAllRecord.setColorBordeFilas(new java.awt.Color(102, 102, 255));
         tb_ViewAllRecord.setColorFilasBackgound2(new java.awt.Color(255, 255, 255));
@@ -309,7 +319,7 @@ public class ViewAllRecord extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tb_ViewAllRecordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_ViewAllRecordMouseClicked
-        
+
     }//GEN-LAST:event_tb_ViewAllRecordMouseClicked
 
     private void lbl_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_minimizeMouseClicked
@@ -345,8 +355,13 @@ public class ViewAllRecord extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_exitMouseExited
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-        clearTable();
-        search();
+        if (datePicker_IssueDate.getDate() != null && datePicker_DueDate.getDate() != null) {
+            clearTable();
+            search();
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select a date");
+        }
+
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void lbl_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_backMouseClicked
@@ -354,6 +369,15 @@ public class ViewAllRecord extends javax.swing.JFrame {
         home.setVisible(true);
         dispose();
     }//GEN-LAST:event_lbl_backMouseClicked
+
+    private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
+
+    private void rSMaterialButtonCircle2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2MouseClicked
+        clearTable();
+        setIssuedBookDetailToTable();
+    }//GEN-LAST:event_rSMaterialButtonCircle2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -406,6 +430,7 @@ public class ViewAllRecord extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_minimize;
     private javax.swing.JPanel panel_table;
     private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle1;
+    private rojerusan.RSMaterialButtonCircle rSMaterialButtonCircle2;
     private rojeru_san.complementos.RSTableMetro tb_ViewAllRecord;
     // End of variables declaration//GEN-END:variables
 }

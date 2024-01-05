@@ -20,69 +20,65 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * Creates new form SingUpPage
      */
-    Color mouseEnterColor = new Color(255,0,0);    
-    Color mouseExitColor = new Color(153,153,255);
-    
+    Color mouseEnterColor = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(153, 153, 255);
+
     public LoginPage() {
-      initComponents();
+        initComponents();
     }
-    
+
     //Validation
-    
-    public boolean validateLogin(){
+    public boolean validateLogin() {
         String name = txt_username.getText();
         String pwd = txt_password.getText();
-        
-        if(name.equals("")){
-            JOptionPane.showMessageDialog(this,"Please enter Username" );
+
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter Username");
             return false;
         }
-        
-        if(pwd.equals("")){
-            JOptionPane.showMessageDialog(this,"Please enter Password" );
+
+        if (pwd.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter Password");
             return false;
         }
-        
+
         return true;
-    }    
-    
+    }
+
     //verify creditencial
-        private void login(){
-            String name = txt_username.getText();
-            String pwd =txt_password.getText();
-            
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db","root","");
-                PreparedStatement pst = con.prepareStatement("SELECT * FROM users WHERE name =? and password = ?");
-                
-                pst.setString(1, name);
-                pst.setString(2, pwd);
-                
-                ResultSet rs = pst.executeQuery();
-                
-                if(rs.next()){
-                   JOptionPane.showMessageDialog(this, "login successful");
-                   HomePage home = new HomePage();
-                   home.setVisible(true);
-                   this.dispose();
-                }
-                
-                else{
-                    JOptionPane.showMessageDialog(this, "Incorrect username or password");
-                }
-            } 
-            catch (Exception e) {
-              e.printStackTrace();
+    private void login() {
+        String name = txt_username.getText();
+        String pwd = txt_password.getText();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db", "root", "");
+            PreparedStatement pst = con.prepareStatement("SELECT * FROM users WHERE name =? and password = ?");
+
+            pst.setString(1, name);
+            pst.setString(2, pwd);
+
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(this, "login successful");
+                HomePage home = new HomePage();
+                home.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Incorrect username or password");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-       private void Singup(){
-            SingUpPage singUp = new SingUpPage();
-            singUp.setVisible(true);
-            this.dispose();
-        }
-   
-    
+    }
+
+    private void Singup() {
+        SingUpPage singUp = new SingUpPage();
+        singUp.setVisible(true);
+        this.dispose();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -270,9 +266,10 @@ public class LoginPage extends javax.swing.JFrame {
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
-        if(validateLogin());{
-        login();
-    }
+        if (validateLogin());
+        {
+            login();
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void lbl_exit1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_exit1MouseClicked

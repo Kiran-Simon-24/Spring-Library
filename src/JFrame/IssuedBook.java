@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -17,148 +18,198 @@ import javax.swing.JOptionPane;
  */
 public class IssuedBook extends javax.swing.JFrame {
 
-    
-
     /**
      * Creates new form IssuedBook
      */
-    Color mouseEnterColorMin = new Color(187,187,187);
-    Color mouseEnterColorExit = new Color(255,0,0);    
-    Color mouseExitColor = new Color(255,255,255);
-    
+    Color mouseEnterColorMin = new Color(187, 187, 187);
+    Color mouseEnterColorExit = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(255, 255, 255);
+
     public IssuedBook() {
         initComponents();
     }
-    
+
     // to fetch the book details from the DB
-    public void getBookDetails(){
+    public void getBookDetails() {
         int book_id = Integer.parseInt(txt_bookId.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement pst = con.prepareStatement("SELECT LPAD(book_id, 3, '0') book_id, book_name, author, quantity FROM book_details where book_id =?");
             pst.setInt(1, book_id);
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 lbl_bookId.setText(rs.getString("book_id"));
                 lbl_bookName.setText(rs.getString("book_name"));
                 lbl_author.setText(rs.getString("author"));
-                lbl_quantity.setText(rs.getString("quantity"));  
-            }
-            else{
+                lbl_quantity.setText(rs.getString("quantity"));
+                lbl_bookError.setText("");
+            } else {
                 lbl_bookError.setText("Invalid Book id");
+                lbl_bookId.setText("");
+                lbl_bookName.setText("");
+                lbl_author.setText("");
+                lbl_quantity.setText("");
+
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-     // to fetch the Student details from the DB
-    public void getStudentDetails(){
+
+    // to fetch the Student details from the DB
+    public void getStudentDetails() {
         int student_id = Integer.parseInt(txt_studentId.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement pst = con.prepareStatement("SELECT LPAD(student_id, 3, '0') AS student_id, student_name, course, branch FROM student_details where student_id =?");
             pst.setInt(1, student_id);
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 lbl_studentId.setText(rs.getString("student_id"));
                 lbl_studentName.setText(rs.getString("student_name"));
                 lbl_course.setText(rs.getString("course"));
-                lbl_branch.setText(rs.getString("branch"));  
-            }
-            else{
+                lbl_branch.setText(rs.getString("branch"));
+                lbl_studentError.setText("");
+            } else {
                 lbl_studentError.setText("Invalid Student id");
+                lbl_studentId.setText("");
+                lbl_studentName.setText("");
+                lbl_course.setText("");
+                lbl_branch.setText("");
+
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
     
     // insert issue book details to DB
-    public boolean issueBook(){
-        
+    public boolean issueBook() {
+
         boolean isIssue = false;
-        int book_id = Integer.parseInt(txt_bookId.getText());
         int student_id = Integer.parseInt(txt_studentId.getText());
+        int book_id = Integer.parseInt(txt_bookId.getText());
         String bookName = lbl_bookName.getText();
         String studentName = lbl_studentName.getText();
-        
+
         java.time.LocalDate uIssueDate = datepicker_IssueDate.getDate();
         java.time.LocalDate uDueDate = datepicker_DueDate.getDate();
-        
+
         //long l1 = uIssueDate.getTime();
         //long l2 = uDueDate.getTime();
-        java.sql.Date sIssueDate = java.sql.Date.valueOf(uIssueDate);
-        java.sql.Date sDueDate = java.sql.Date.valueOf(uDueDate);
-       
+        if (isStudentExists(student_id) && isBookExists(book_id)) {
+            java.sql.Date sIssueDate = java.sql.Date.valueOf(uIssueDate);
+            java.sql.Date sDueDate = java.sql.Date.valueOf(uDueDate);
+
+            try {
+                Connection con = DBConnection.getConnection();
+                String sql = "Insert into issue_book (Book_id,Book_name, Student_id, Student_name, Issue_date ,Due_date,status) values (?,?,?,?,?,?,?)";
+                PreparedStatement pst = con.prepareStatement(sql);
+                pst.setInt(1, book_id);
+                pst.setString(2, bookName);
+                pst.setInt(3, student_id);
+                pst.setString(4, studentName);
+                pst.setDate(5, sIssueDate);
+                pst.setDate(6, sDueDate);
+                pst.setString(7, "Pending");
+
+                int rowCount = pst.executeUpdate();
+                if (rowCount > 0) {
+                    isIssue = true;
+                } else {
+                    isIssue = false;
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return isIssue;
+    }
+    
+    //Check Is student Exit
+    
+    private boolean isStudentExists(int student_id) {
+        boolean exists = false;
+
         try {
             Connection con = DBConnection.getConnection();
-            String sql = "Insert into issue_book (Book_id,Book_name, Student_id, Student_name, Issue_date ,Due_date,status) values (?,?,?,?,?,?,?)";
+            String sql = "SELECT COUNT(*) FROM student_details WHERE student_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setInt(1, book_id);
-            pst.setString(2, bookName);
-            pst.setInt(3, student_id);
-            pst.setString(4, studentName);
-            pst.setDate(5, sIssueDate);
-            pst.setDate(6, sDueDate);
-            pst.setString(7, "Pending");
-            
-            int rowCount = pst.executeUpdate();
-            
-            if(rowCount > 0){
-                isIssue = true;
+            pst.setInt(1, student_id);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    exists = true;
+                }
             }
-            else{
-                isIssue = false;
-            }      
-            
-        } 
-        catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return isIssue;
-}
- 
-    //Updating Book count
+
+        return exists;
+    }
     
-    public void updateBookCount(){
+    private boolean isBookExists(int book_id) {
+        boolean exists = false;
+
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "SELECT COUNT(*) FROM book_details WHERE book_id = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setInt(1, book_id);
+
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                if (count > 0) {
+                    exists = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return exists;
+    }
+
+    //Updating Book count
+    public void updateBookCount() {
         int book_id = Integer.parseInt(txt_bookId.getText());
         try {
             Connection con = DBConnection.getConnection();
             String sql = "Update book_details set quantity = quantity - 1 where book_id =?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, book_id);
-            
+
             int rowCount = pst.executeUpdate();
-            if(rowCount > 0){
+            if (rowCount > 0) {
                 JOptionPane.showMessageDialog(this, "Book count updated");
                 int initialCount = Integer.parseInt(lbl_quantity.getText());
                 lbl_quantity.setText(Integer.toString(initialCount - 1));
-                
-            }
-            else{
+
+            } else {
                 JOptionPane.showMessageDialog(this, "Can't update Book count");
             }
-        } 
-        catch (Exception e) {
-            
-          e.printStackTrace();
+        } catch (SQLException e) {
+
+            e.printStackTrace();
         }
     }
-    
+
     //Checking whether book already issued or not
-    
-    public boolean isAlreadyIssued(){
+    public boolean isAlreadyIssued() {
         boolean isAlreadyIssued = false;
         int book_id = Integer.parseInt(txt_bookId.getText());
         int student_id = Integer.parseInt(txt_studentId.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             String sql = "Select * from issue_book where book_id = ? and student_id = ? and status = ?";
@@ -166,22 +217,21 @@ public class IssuedBook extends javax.swing.JFrame {
             pst.setInt(1, book_id);
             pst.setInt(2, student_id);
             pst.setString(3, "pending");
-            
+
             ResultSet rs = pst.executeQuery();
-            
-            if(rs.next()){
+
+            if (rs.next()) {
                 isAlreadyIssued = true;
+            } else {
+                isAlreadyIssued = false;
             }
-            else{
-            isAlreadyIssued = false;
-        }
-            
-        } catch (Exception e) {
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return isAlreadyIssued;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -558,35 +608,32 @@ public class IssuedBook extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_backMouseClicked
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-        
-        if(lbl_quantity.getText().equals("0")){
+
+        if (lbl_quantity.getText().equals("0")) {
             JOptionPane.showMessageDialog(this, "Book is not avaliable");
-        }
-        else{
-            if(isAlreadyIssued() == false){
-            
-                if(issueBook() == true){
+        } else {
+            if (isAlreadyIssued() == false) {
+
+                if (issueBook() == true) {
                     JOptionPane.showMessageDialog(this, "Book issued successfully");
                     updateBookCount();
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(this, "Book can't issue!");
                 }
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(this, "This student already has this book!");
-            }   
-        }  
+            }
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void txt_bookIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_bookIdFocusLost
-        if(!txt_bookId.getText().equals("")){
+        if (!txt_bookId.getText().equals("")) {
             getBookDetails();
         }
     }//GEN-LAST:event_txt_bookIdFocusLost
 
     private void txt_studentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_studentIdFocusLost
-        if(!txt_studentId.getText().equals("")){
+        if (!txt_studentId.getText().equals("")) {
             getStudentDetails();
         }
     }//GEN-LAST:event_txt_studentIdFocusLost

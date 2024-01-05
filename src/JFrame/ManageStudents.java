@@ -25,153 +25,139 @@ public class ManageStudents extends javax.swing.JFrame {
     /**
      * Creates new form ManageBooks
      */
-    
-    Color mouseEnterColorMin = new Color(187,187,187);
-    Color mouseEnterColorExit = new Color(255,0,0);    
-    Color mouseExitColor = new Color(255,255,255);
-    
+    Color mouseEnterColorMin = new Color(187, 187, 187);
+    Color mouseEnterColorExit = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(255, 255, 255);
+
     String student_name, course, branch;
     int student_id;
     DefaultTableModel model;
-    
-    
+
     public ManageStudents() {
         initComponents();
         setStudentDetailsToTable();
     }
-    
+
     // To set the studetn dtails to table
-    public void setStudentDetailsToTable(){
-       
+    public void setStudentDetailsToTable() {
+
         try {
-                Class.forName("com.mysql.jdbc.Driver");
-                con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db","root","");
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery("SELECT LPAD(student_id, 3, '0') AS student_id, student_name, course, branch FROM student_details");
-                
-                while(rs.next()){
-                   String studentId = rs.getString("Student_id");
-                   String studentName = rs.getString("Student_name");
-                   String course = rs.getString("Course");
-                   String branch = rs.getString("Branch");
-                   
-                   Object[] obj = {studentId, studentName, course,branch};
-                   model = (DefaultTableModel) tb_Studentdetails.getModel();
-                   model.addRow(obj);
-                }
-        }
-        catch (Exception e) {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db", "root", "");
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery("SELECT LPAD(student_id, 3, '0') AS student_id, student_name, course, branch FROM student_details");
+
+            while (rs.next()) {
+                String studentId = rs.getString("Student_id");
+                String studentName = rs.getString("Student_name");
+                String course = rs.getString("Course");
+                String branch = rs.getString("Branch");
+
+                Object[] obj = {studentId, studentName, course, branch};
+                model = (DefaultTableModel) tb_Studentdetails.getModel();
+                model.addRow(obj);
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     // Add Student to table
- 
-    public boolean addStudent(){
-       
+    public boolean addStudent() {
+
         boolean isAdded = false;
-        
+
         student_id = Integer.parseInt(txt_studentID.getText());
         student_name = txt_studentName.getText();
         course = combo_Course.getSelectedItem().toString();
         branch = combo_Branch.getSelectedItem().toString();
-        
+
         try {
             Connection con = DBConnection.getConnection();
             String sql;
             PreparedStatement pst;
             sql = "INSERT INTO student_details (student_id, student_name, course, branch) VALUES (?, ?, ?, ?)";
             pst = con.prepareStatement(sql);
-            
+
             pst.setInt(1, student_id);
             pst.setString(2, student_name);
             pst.setString(3, course);
-            pst.setString(4, branch);    
-            
+            pst.setString(4, branch);
+
             int rowCount = pst.executeUpdate();
-            if(rowCount > 0){       
+            if (rowCount > 0) {
                 isAdded = true;
-            }
-            else{
+            } else {
                 isAdded = false;
             }
-        } 
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return isAdded;
-   }
-    
-    
+    }
+
     // Update Student 
-    
-    public boolean updateStudent(){
-        
+    public boolean updateStudent() {
+
         boolean isUpdated = false;
-        student_id = Integer.parseInt(txt_studentID.getText()) ;
+        student_id = Integer.parseInt(txt_studentID.getText());
         student_name = txt_studentName.getText();
         course = combo_Course.getSelectedItem().toString();
         branch = combo_Branch.getSelectedItem().toString();
-        try{
+        try {
             Connection con = DBConnection.getConnection();
             String sql = "update student_details set student_name = ?, course = ?, branch = ? where student_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setString(1, student_name);
             pst.setString(2, course);
-            pst.setString(3, branch);  
+            pst.setString(3, branch);
             pst.setInt(4, student_id);
-            
+
             int rowCount = pst.executeUpdate();
-            if(rowCount > 0){
+            if (rowCount > 0) {
                 isUpdated = true;
-            }
-            else{
+            } else {
                 isUpdated = false;
             }
-            
-        }
-        catch (Exception e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return isUpdated;
     }
-    
+
     //Delete Student
-    
-    public boolean deleteStudent(){
-        
+    public boolean deleteStudent() {
+
         boolean isDeleted = false;
         student_id = Integer.parseInt(txt_studentID.getText());
-        
+
         try {
             Connection con = DBConnection.getConnection();
             String sql = "Delete from student_details where student_id = ?";
             PreparedStatement pst = con.prepareStatement(sql);
             pst.setInt(1, student_id);
-            
+
             int rowCount = pst.executeUpdate();
-            
-            if(rowCount > 0){
+
+            if (rowCount > 0) {
                 isDeleted = true;
-            }
-            else{
+            } else {
                 isDeleted = false;
             }
-            
-        } 
-        catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isDeleted;
     }
-    
+
     //Clear Table method
-    
-    public void clearTable(){
+    public void clearTable() {
         DefaultTableModel model = (DefaultTableModel) tb_Studentdetails.getModel();
-        model.setRowCount(0);            
+        model.setRowCount(0);
     }
 
     /**
@@ -451,38 +437,35 @@ public class ManageStudents extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_studentIDActionPerformed
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-        if(deleteStudent() == true){
-           JOptionPane.showMessageDialog(this, "Student Deleted");
-           clearTable();
-           setStudentDetailsToTable();
-       }
-       else{
-           JOptionPane.showMessageDialog(this, "Student Deletion Failed");
-       }
+        if (deleteStudent() == true) {
+            JOptionPane.showMessageDialog(this, "Student Deleted");
+            clearTable();
+            setStudentDetailsToTable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Student Deletion Failed");
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
-      
+
         // Call with a specific book ID
-        if(addStudent()== true){
-           JOptionPane.showMessageDialog(this, "Student Added");
-           clearTable();
-           setStudentDetailsToTable();
-       }
-       else{
-           JOptionPane.showMessageDialog(this, "Student Addition Failed");
-       }
+        if (addStudent() == true) {
+            JOptionPane.showMessageDialog(this, "Student Added");
+            clearTable();
+            setStudentDetailsToTable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Student Addition Failed");
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
-        if(updateStudent() == true){
-           JOptionPane.showMessageDialog(this, "Student Updated");
-           clearTable();
-           setStudentDetailsToTable();
-       }
-       else{
-           JOptionPane.showMessageDialog(this, "Student  Update Failed");
-       }
+        if (updateStudent() == true) {
+            JOptionPane.showMessageDialog(this, "Student Updated");
+            clearTable();
+            setStudentDetailsToTable();
+        } else {
+            JOptionPane.showMessageDialog(this, "Student  Update Failed");
+        }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
     private void lbl_backMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_backMouseClicked
@@ -492,7 +475,7 @@ public class ManageStudents extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_backMouseClicked
 
     private void tb_StudentdetailsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tb_StudentdetailsMouseClicked
-        
+
         int rowNo = tb_Studentdetails.getSelectedRow();
         TableModel model = tb_Studentdetails.getModel();
         txt_studentID.setText(model.getValueAt(rowNo, 0).toString());

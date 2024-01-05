@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package JFrame;
+
 import static JFrame.DBConnection.con;
 import java.awt.Color;
 import java.sql.Connection;
@@ -10,6 +11,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author kingk
@@ -19,148 +21,134 @@ public class SingUpPage extends javax.swing.JFrame {
     /**
      * Creates new form SingUpPage
      */
-    
-    Color mouseEnterColor = new Color(255,0,0);    
-    Color mouseExitColor = new Color(153,102,255);
-    
+    Color mouseEnterColor = new Color(255, 0, 0);
+    Color mouseExitColor = new Color(153, 102, 255);
+
     public SingUpPage() {
         initComponents();
     }
-    
+
     //method to insert value into users table
-    public void insertSingupDetails(){
+    public void insertSingupDetails() {
         String name = txt_username.getText();
         String pwd = txt_password.getText();
         String email = txt_email.getText();
         String contact = txt_contact.getText();
-        
+
         try {
-           Connection con = DBConnection.getConnection();
-           String sql = "insert into users(name,password,email,contact) values(?,?,?,?)";
+            Connection con = DBConnection.getConnection();
+            String sql = "insert into users(name,password,email,contact) values(?,?,?,?)";
             PreparedStatement pst = con.prepareStatement(sql);
-            
+
             pst.setString(1, name);
-            pst.setString(2, pwd); 
+            pst.setString(2, pwd);
             pst.setString(3, email);
             pst.setString(4, contact);
-            
+
             int updatedRowCount = pst.executeUpdate();
-            
-            if(updatedRowCount > 0){
-                
-                JOptionPane.showMessageDialog(this,"Recorded inserted Successfully" );
+
+            if (updatedRowCount > 0) {
+
+                JOptionPane.showMessageDialog(this, "Recorded inserted Successfully");
                 login();
+            } else {
+                JOptionPane.showMessageDialog(this, "Recorded inserted Failed");
             }
-            else {
-                JOptionPane.showMessageDialog(this,"Recorded inserted Failed" );
-            }
-        } 
-        catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-    
-        }
-        catch (Exception e) {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     //Validation
-    
-    public boolean validSingup(){
+    public boolean validSingup() {
         String name = txt_username.getText();
         String pwd = txt_password.getText();
         String email = txt_email.getText();
         String contact = txt_contact.getText();
-        final String EMAIL_PATTERN  = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$";
-  
-        
-        if(name.equals("")){
-            JOptionPane.showMessageDialog(this,"Please enter Username");
+
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter Username");
             return false;
         }
-        
-        if(pwd.equals("" )){
-            JOptionPane.showMessageDialog(this,"Please enter Password");
+
+        if (pwd.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter Password");
             return false;
         }
-        
-        if(!(passwordValid(pwd))){
+
+        if (!(isPasswordValid(pwd))) {
             return false;
         }
-        
-        if(email.equals("") || !email.matches(EMAIL_PATTERN) ){
-            JOptionPane.showMessageDialog(this,"Please enter valid Email");
+
+        if (email.equals("") || (!isEmailValid(email))) {
+            JOptionPane.showMessageDialog(this, "Please enter valid Email");
             return false;
         }
-        
-        if(emailExitsInDatabse(email)){
+
+        if (emailExitsInDatabse(email)) {
             JOptionPane.showMessageDialog(this, "This email is already registered");
             return false;
         }
-        
-        if(contact.equals("")){
-            JOptionPane.showMessageDialog(this,"Please enter Contact number");
+
+        if (contact.equals("")) {
+            JOptionPane.showMessageDialog(this, "Please enter Contact number");
             return false;
         }
         return true;
     }
-    
+
     //check duplication
-    
-    private boolean checkDuplicateUser(){
+    private boolean checkDuplicateUser() {
         String name = txt_username.getText();
         boolean isExit = false;
-        
-        try{
+
+        try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db","root","");
-            
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/library-ms-db", "root", "");
+
             PreparedStatement pst = con.prepareStatement("SELECT * FROM users where name = ?");
             pst.setString(1, name);
             var resulSet = pst.executeQuery();
-            
-            if(resulSet.next()){
-              isExit = true;  
-            }
-            else
+
+            if (resulSet.next()) {
+                isExit = true;
+            } else {
                 isExit = false;
-        }
-        
-        catch (Exception e){
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return isExit;
-    }   
-
+    }
 
     //Password Validation
-    
-    private boolean passwordValid(String pwd){
+    private boolean isPasswordValid(String pwd) {
         int minLength = 8;
         int maxlength = 20;
-        boolean hasUpperCase  = false;
-        boolean hasLowerCase  = false;
+        boolean hasUpperCase = false;
+        boolean hasLowerCase = false;
         boolean hasDigit = false;
         //boolean hasSpecialChar = false;
-        
+
         //Check Length
-        if(pwd.length() < minLength || pwd.length() > maxlength){
-            JOptionPane.showMessageDialog(null,"Password must be between 8 and 20 characters");
+        if (pwd.length() < minLength || pwd.length() > maxlength) {
+            JOptionPane.showMessageDialog(null, "Password must be between 8 and 20 characters");
             return false;
         }
-        
-        for(char ch : pwd.toCharArray()){
-            if(Character.isUpperCase(ch)){
+
+        for (char ch : pwd.toCharArray()) {
+            if (Character.isUpperCase(ch)) {
                 hasUpperCase = true;
-            }
-            else if(Character.isLowerCase(ch)){
+            } else if (Character.isLowerCase(ch)) {
                 hasLowerCase = true;
-            }
-            else if(Character.isDigit(ch)){
+            } else if (Character.isDigit(ch)) {
                 hasDigit = true;
             }
         }
-        
+
         // Construct a warning message for missing criteria
         StringBuilder warningMessage = new StringBuilder("Password must contain:");
 
@@ -182,33 +170,46 @@ public class SingUpPage extends javax.swing.JFrame {
         }
 
         return true;
-}
-    
-    // Email Check Method
-    private boolean emailExitsInDatabse(String email){
-            try {
-                Connection con = DBConnection.getConnection();
-                String query = "SELECT COUNT(*) From users WHERE email = ?";
-                try (PreparedStatement pst = con.prepareStatement(query)){
-                    pst.setString(1, email);
-                    var resultSet = pst.executeQuery();
-                 
-                    if(resultSet.next() && resultSet.getInt(1) > 0 )
-                        return true;
-                } 
-            }      
-            catch (SQLException e)
-            {
-                e.printStackTrace();
-            }
-            return false;
-}
-    private void login(){
-            LoginPage logIn = new LoginPage();
-            logIn.setVisible(true);
-            this.dispose();
+    }
+
+    // Valid Email
+    private boolean isEmailValid(String email) {
+        final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.com$";
+        boolean isValid = false;
+        if (email.matches(EMAIL_PATTERN)) {
+            isValid = true;
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter valid email\n - someone@gmail.com");
+            isValid = false;
         }
-    
+        return isValid;
+    }
+
+    // Email Check Method
+    private boolean emailExitsInDatabse(String email) {
+        try {
+            Connection con = DBConnection.getConnection();
+            String query = "SELECT COUNT(*) From users WHERE email = ?";
+            try (PreparedStatement pst = con.prepareStatement(query)) {
+                pst.setString(1, email);
+                var resultSet = pst.executeQuery();
+
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void login() {
+        LoginPage logIn = new LoginPage();
+        logIn.setVisible(true);
+        this.dispose();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -390,6 +391,11 @@ public class SingUpPage extends javax.swing.JFrame {
         txt_email.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(255, 255, 255)));
         txt_email.setFont(new java.awt.Font("Tahoma", 0, 17)); // NOI18N
         txt_email.setPlaceholder("someone@example.com");
+        txt_email.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txt_emailFocusLost(evt);
+            }
+        });
         txt_email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txt_emailActionPerformed(evt);
@@ -458,22 +464,15 @@ public class SingUpPage extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_exitMouseClicked
 
     private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
-        
-        if(validSingup() == true ){
-            if(checkDuplicateUser() == false){
-            insertSingupDetails();
-            }
-            else{
+
+        if (validSingup() == true) {
+            if (checkDuplicateUser() == false) {
+                insertSingupDetails();
+            } else {
                 JOptionPane.showMessageDialog(this, "Username already exist");
             }
         }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
-
-    private void txt_usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_usernameFocusLost
-        if(checkDuplicateUser()== true){
-            JOptionPane.showMessageDialog(this, "Username already exist");
-        }
-    }//GEN-LAST:event_txt_usernameFocusLost
 
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
         login();
@@ -490,6 +489,18 @@ public class SingUpPage extends javax.swing.JFrame {
         lbl_exit.setOpaque(true); // Make sure this is set to true
         lbl_exit.repaint(); // Repaint to apply changes
     }//GEN-LAST:event_lbl_exitMouseExited
+
+    private void txt_emailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_emailFocusLost
+        if (evt.getSource() == txt_email) {
+            isEmailValid(txt_email.getText());
+        }
+    }//GEN-LAST:event_txt_emailFocusLost
+
+    private void txt_usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_usernameFocusLost
+        if (checkDuplicateUser() == true) {
+            JOptionPane.showMessageDialog(this, "Username already exist");
+        }
+    }//GEN-LAST:event_txt_usernameFocusLost
 
     /**
      * @param args the command line arguments
