@@ -62,6 +62,18 @@ public class ManageStudents extends javax.swing.JFrame {
         }
     }
 
+    // Checking ID is valid
+    public boolean isValidId() {
+        String student_id = txt_studentID.getText();
+        try {
+            Integer.parseInt(student_id);
+            return true;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter a numeric value for Student ID ");
+            return false;
+        }
+    }
+
     // Add Student to table
     public boolean addStudent() {
 
@@ -449,22 +461,26 @@ public class ManageStudents extends javax.swing.JFrame {
     private void rSMaterialButtonCircle2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle2ActionPerformed
 
         // Call with a specific book ID
-        if (addStudent() == true) {
-            JOptionPane.showMessageDialog(this, "Student Added");
-            clearTable();
-            setStudentDetailsToTable();
-        } else {
-            JOptionPane.showMessageDialog(this, "Student Addition Failed");
+        if (isValidId() == true) {
+            if (addStudent() == true) {
+                JOptionPane.showMessageDialog(this, "Student Added");
+                clearTable();
+                setStudentDetailsToTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Student Addition Failed");
+            }
         }
     }//GEN-LAST:event_rSMaterialButtonCircle2ActionPerformed
 
     private void rSMaterialButtonCircle3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle3ActionPerformed
-        if (updateStudent() == true) {
-            JOptionPane.showMessageDialog(this, "Student Updated");
-            clearTable();
-            setStudentDetailsToTable();
-        } else {
-            JOptionPane.showMessageDialog(this, "Student  Update Failed");
+        if (isValidId() == true) {
+            if (updateStudent() == true) {
+                JOptionPane.showMessageDialog(this, "Student Updated");
+                clearTable();
+                setStudentDetailsToTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Student  Update Failed");
+            }
         }
     }//GEN-LAST:event_rSMaterialButtonCircle3ActionPerformed
 
