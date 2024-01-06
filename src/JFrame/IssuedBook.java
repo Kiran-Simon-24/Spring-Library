@@ -67,7 +67,7 @@ public class IssuedBook extends javax.swing.JFrame {
             PreparedStatement pst = con.prepareStatement("SELECT LPAD(student_id, 3, '0') AS student_id, student_name, course, branch FROM student_details where student_id =?");
             pst.setInt(1, student_id);
             ResultSet rs = pst.executeQuery();
-
+            
             if (rs.next()) {
                 lbl_studentId.setText(rs.getString("student_id"));
                 lbl_studentName.setText(rs.getString("student_name"));
@@ -86,7 +86,21 @@ public class IssuedBook extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-    
+
+    //Checking IDs are valid
+    public boolean isValidId() {
+        String book_id = txt_bookId.getText();
+        String student_id = txt_studentId.getText();
+        try {
+            Integer.parseInt(book_id.trim());
+            Integer.parseInt(student_id.trim());
+            return true;
+        } catch (NumberFormatException e) {
+            
+            return false;
+        }
+    }
+
     // insert issue book details to DB
     public boolean issueBook() {
 
@@ -131,9 +145,8 @@ public class IssuedBook extends javax.swing.JFrame {
 
         return isIssue;
     }
-    
+
     //Check Is student Exit
-    
     private boolean isStudentExists(int student_id) {
         boolean exists = false;
 
@@ -156,7 +169,8 @@ public class IssuedBook extends javax.swing.JFrame {
 
         return exists;
     }
-    
+
+    // Check is Student exit
     private boolean isBookExists(int book_id) {
         boolean exists = false;
 
@@ -175,6 +189,7 @@ public class IssuedBook extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            
         }
 
         return exists;
@@ -608,28 +623,33 @@ public class IssuedBook extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_backMouseClicked
 
     private void rSMaterialButtonCircle1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rSMaterialButtonCircle1ActionPerformed
-
-        if (lbl_quantity.getText().equals("0")) {
-            JOptionPane.showMessageDialog(this, "Book is not avaliable");
-        } else {
-            if (isAlreadyIssued() == false) {
-
-                if (issueBook() == true) {
-                    JOptionPane.showMessageDialog(this, "Book issued successfully");
-                    updateBookCount();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Book can't issue!");
-                }
+        if (isValidId() == true) {
+            if (lbl_quantity.getText().equals("0")) {
+                JOptionPane.showMessageDialog(this, "Book is not avaliable");
             } else {
-                JOptionPane.showMessageDialog(this, "This student already has this book!");
+                if (isAlreadyIssued() == false) {
+
+                    if (issueBook() == true) {
+                        JOptionPane.showMessageDialog(this, "Book issued successfully");
+                        updateBookCount();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Book can't issue!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "This student already has this book!");
+                }
             }
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Please enter a numeric value for ID");
         }
     }//GEN-LAST:event_rSMaterialButtonCircle1ActionPerformed
 
     private void txt_bookIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_bookIdFocusLost
         if (!txt_bookId.getText().equals("")) {
-            getBookDetails();
+                getBookDetails();       
         }
+        
     }//GEN-LAST:event_txt_bookIdFocusLost
 
     private void txt_studentIdFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txt_studentIdFocusLost
